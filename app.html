@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Mostrar archivo Python - app.py</title>
+  <style>
+    pre {
+      background-color: #f4f4f4;
+      padding: 15px;
+      border-radius: 5px;
+      font-family: monospace;
+    }
+  </style>
+</head>
+<body>
+  <h1>Contenido de app.py desde GitHub</h1>
+  <pre id="codigo-python"></pre>
+
+  <script>
+    fetch('https://raw.githubusercontent.com/tu_usuario/tu_repositorio/main/app.py')
+      .then(response => response.text())
+      .then(data => {
+        document.getElementById('codigo-python').textContent = data;
+      })
+      .catch(error => console.error('Error al cargar el archivo:', error));
+  </script>
+</body>
+</html>
