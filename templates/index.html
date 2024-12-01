@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Ventas</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            height: 100vh; /* El cuerpo ocupa toda la altura de la pantalla */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: url('https://th.bing.com/th/id/R.2c4ee0923c0fc6edd6e2c46f8f277912?rik=zXxftdrVso3VMg&pid=ImgRaw&r=0');
+            background-size: cover; /* La imagen de fondo cubre toda la pantalla */
+            background-position: center;
+            overflow: hidden; /* Evita el scroll innecesario en el body */
+        }
+
+        .contenedor {
+            width: 100%;
+            height: 100%;
+            max-width: 1200px; /* Limita el ancho máximo para pantallas grandes */
+            background: rgba(255, 255, 255, 0.9); /* Fondo semi-transparente */
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+            box-sizing: border-box;
+            overflow-y: auto; /* Habilita el scroll si el contenido es muy largo */
+            border-radius: 20px;
+        }
+
+        .panel-izquierdo {
+            background: linear-gradient(135deg, #4a4a4a, #8e8e8e);
+            color: white;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 40px 20px;
+            text-align: center;
+            flex: 1;
+            position: relative;
+            top: 0; /* Alineamos el panel gris al principio de la pantalla */
+            margin-top: 0; /* Asegura que no haya margen superior */
+        }
+
+        .panel-izquierdo img {
+            width: 120px;
+            margin-bottom: 20px;
+            clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+        }
+
+        .panel-izquierdo h1 {
+            font-size: 36px;
+            margin-bottom: 20px;
+        }
+
+        .panel-izquierdo p {
+            font-size: 16px;
+        }
+
+        .panel-derecho {
+            width: 100%;
+            flex: 2;
+            padding: 20px;
+            overflow-y: auto; /* Habilita el scroll si el contenido es muy largo */
+        }
+
+        .formulario {
+            width: 100%;
+            margin-bottom: 20px;
+        }
+
+        .formulario label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 16px;
+            color: #333;
+        }
+
+        .formulario input, .formulario select {
+            width: calc(100% - 20px);
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 14px;
+            color: #333;
+            background-color: #f5f5f5;
+        }
+
+        .formulario input:focus, .formulario select:focus {
+            border-color: #4a4a4a;
+            background-color: #e0e0e0;
+            box-shadow: 0 0 5px rgba(74, 74, 74, 0.5);
+        }
+
+        button {
+            width: 100%;
+            padding: 15px;
+            background-color: #4a4a4a;
+            color: white;
+            font-size: 18px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        button:hover {
+            background-color: #6b6b6b;
+        }
+
+        /* Tabla de ventas con scroll */
+        .tabla {
+            width: 100%;
+            margin-top: 20px;
+            max-height: 400px; /* Limita la altura de la tabla */
+            overflow-y: auto; /* Activa el scroll vertical */
+        }
+
+        .tabla table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .tabla th, .tabla td {
+            padding: 10px;
+            border: 1px solid #ccc;
+            text-align: left;
+        }
+
+        .tabla th {
+            background-color: #f0f0f0;
+        }
+
+        /* Media Queries para dispositivos móviles */
+        @media screen and (max-width: 768px) {
+            .contenedor {
+                width: 100%;
+                height: 100%;
+                flex-direction: column;
+            }
+
+            .panel-izquierdo, .panel-derecho {
+                width: 100%;
+                padding: 20px;
+                text-align: center;
+            }
+
+            .formulario input, .formulario select {
+                width: 100%;
+            }
+
+            button {
+                padding: 12px;
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="contenedor">
+    <!-- Panel Izquierdo -->
+    <div class="panel-izquierdo">
+        <img src="{{ url_for('static', filename='Dove Bird logo design template.jpg') }}" alt="Logo">
+        <h1>Gestión de Ventas</h1>
+        <p>Administra las ventas de tus productos fácilmente</p>
+    </div>
+
+    <!-- Panel Derecho -->
+    <div class="panel-derecho">
+        <div class="formulario">
+            <form id="ventaForm" method="POST" action="/agregar-venta">
+                <label for="producto">Producto:</label>
+                <input type="text" id="producto" name="producto" placeholder="Ingrese el producto" required>
+
+                <label for="descripcion">Descripción:</label>
+                <input type="text" id="descripcion" name="descripcion" placeholder="Ingrese la descripción" required>
+
+                <label for="cantidad">Cantidad:</label>
+                <select id="cantidad" name="cantidad" required>
+                    <option value="">Seleccione la cantidad</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                </select>
+
+                <label for="precio">Precio:</label>
+                <input type="number" id="precio" name="precio" placeholder="Ingrese el precio" step="0.01" required>
+
+                <button type="submit">Agregar Venta</button>
+            </form>
+        </div>
+
+        <div class="tabla">
+            <h2>Listado de Ventas</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Producto</th>
+                        <th>Descripción</th>
+                        <th>Cantidad</th>
+                        <th>Precio</th>
+                        <th>Acciones</th> <!-- Columna para los botones -->
+                    </tr>
+                </thead>
+                <tbody id="tablaVentas">
+                    <!-- Las filas se generarán dinámicamente desde la base de datos -->
+                    {% for venta in ventas %}
+                    <tr>
+                        <td>{{ venta[0] }}</td>
+                        <td>{{ venta[1] }}</td>
+                        <td>{{ venta[2] }}</td>
+                        <td>{{ venta[3] }}</td>
+                        <td>{{ venta[4] }}</td>
+                        <td><button class="eliminar-btn" data-id="{{ venta[0] }}">Eliminar</button></td> <!-- Botón para eliminar -->
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script>
+    const form = document.getElementById('ventaForm');
+    const tablaVentas = document.getElementById('tablaVentas');
+
+    form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const producto = form.producto.value;
+        const descripcion = form.descripcion.value;
+        const cantidad = form.cantidad.value;
+        const precio = form.precio.value;
+
+        if (producto && descripcion && cantidad && precio) {
+            // Enviar los datos al backend
+            fetch('/agregar-venta', {
+                method: 'POST',
+                body: new FormData(form)
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.mensaje === "Venta agregada correctamente") {
+                    // Crear una nueva fila en la tabla con los datos ingresados
+                    const nuevaFila = document.createElement('tr');
+                    nuevaFila.innerHTML = `
+                        <td>Nuevo</td>
+                        <td>${producto}</td>
+                        <td>${descripcion}</td>
+                        <td>${cantidad}</td>
+                        <td>${precio}</td>
+                        <td><button class="eliminar-btn" data-id="Nuevo">Eliminar</button></td>
+                    `;
+                    tablaVentas.appendChild(nuevaFila);
+                    form.reset();
+                } else {
+                    alert('Error al agregar la venta');
+                }
+            });
+        } else {
+            alert('Por favor complete todos los campos.');
+        }
+    });
+
+    // Eliminar venta
+    tablaVentas.addEventListener('click', (e) => {
+        if (e.target && e.target.classList.contains('eliminar-btn')) {
+            const ventaId = e.target.getAttribute('data-id');
+            fetch('/eliminar-venta', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ id: ventaId })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.mensaje === 'Venta eliminada') {
+                    // Eliminar la fila de la tabla
+                    e.target.closest('tr').remove();
+                } else {
+                    alert('Venta eliminada');
+                }
+            });
+        }
+    });
+</script>
+
+</body>
+</html>

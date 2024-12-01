@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inicio de Sesión</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: url('https://th.bing.com/th/id/R.2c4ee0923c0fc6edd6e2c46f8f277912?rik=zXxftdrVso3VMg&pid=ImgRaw&r=0'); /* Fondo mármol */
+            background-size: cover;
+        }
+
+        .contenedor {
+            width: 900px;
+            height: 500px;
+            background: rgba(255, 255, 255, 0.9); /* Fondo blanco semitransparente */
+            display: flex;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            border-radius: 20px;
+            overflow: hidden;
+        }
+
+        .panel-izquierdo {
+            background: linear-gradient(135deg, #4a4a4a, #8e8e8e); /* Fondo gris oscuro */
+            color: white;
+            width: 50%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 30px;
+            text-align: center;
+            position: relative;
+        }
+
+        .panel-izquierdo::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: -30px;
+            width: 0;
+            height: 0;
+            border-top: 250px solid transparent;
+            border-bottom: 250px solid transparent;
+            border-left: 30px solid rgba(255, 255, 255, 0.9); /* Fondo transparente */
+        }
+
+        .panel-izquierdo h1 {
+            font-size: 36px;
+            margin-bottom: 20px;
+        }
+
+        .panel-izquierdo p {
+            font-size: 16px;
+        }
+
+        .panel-izquierdo a {
+            color: #ffe6f0;
+            text-decoration: underline;
+            font-weight: bold;
+        }
+
+        .panel-derecho {
+            width: 50%;
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center; /* Centrado de contenido */
+        }
+
+        .grupo-formulario {
+            margin-bottom: 20px;
+            position: relative;
+            width: 100%; /* Asegura que los campos no se alarguen más allá del contenedor */
+            display: flex;
+            justify-content: center; /* Centra los campos dentro del contenedor */
+        }
+
+        .grupo-formulario input {
+            width: 200px;  /* Ancho más pequeño */
+            height: 30px;  /* Altura más pequeña */
+            padding: 8px 20px; /* Espacio para los iconos */
+            border: 1px solid #ccc; /* Borde gris claro */
+            border-radius: 8px; /* Bordes redondeados */
+            font-size: 14px; /* Tamaño de texto ajustado */
+            color: #7d7d7d; /* Gris oscuro */
+            background-color: #f5f5f5; /* Fondo gris claro */
+            text-align: center;  /* Centrado del texto */
+            transition: all 0.5s ease-in-out; /* Transición más rápida para un cambio sutil */
+            margin-left: 30px; /* Separación entre el icono y el campo */
+        }
+
+        .grupo-formulario input:focus {
+            border: 1px solid #4a4a4a; /* Borde gris oscuro al enfocarse */
+            background-color: #e0e0e0; /* Fondo gris intermedio */
+            color: #333; /* Gris oscuro al escribir */
+            box-shadow: 0 0 5px rgba(74, 74, 74, 0.5); /* Sombra al enfocarse */
+        }
+
+        .grupo-formulario i {
+            position: absolute;
+            top: 50%;
+            left: 40px;  /* Mueve el icono aún más hacia la derecha */
+            transform: translateY(-50%);
+            font-size: 18px;
+            color: #7d7d7d;
+            transition: all 0.3s ease-in-out;
+        }
+
+        .opciones {
+            margin-top: 15px;
+            display: flex;
+            justify-content: space-between;
+            font-size: 14px;
+        }
+
+        .opciones a {
+            color: #4a4a4a;
+            text-decoration: none;
+        }
+
+        button {
+            width: 100%;
+            padding: 15px;
+            border: none;
+            background: #4a4a4a; /* Gris oscuro */
+            color: white;
+            font-size: 18px;
+            border-radius: 10px;
+            cursor: pointer;
+            margin-top: 20px; /* Se añadió margen para moverlo hacia abajo */
+            transition: background 0.3s ease-in-out;
+        }
+
+        button:hover {
+            background: #6b6b6b; /* Gris más claro */
+        }
+
+        /* Media Queries para dispositivos móviles */
+        @media screen and (max-width: 768px) {
+            .contenedor {
+                width: 90%; /* Ajustar el ancho al 90% de la pantalla */
+                height: auto; /* Permitir que la altura sea dinámica */
+                flex-direction: column; /* Cambiar el diseño de lado a columna */
+                padding: 10px;
+                justify-content: center;
+                align-items: center; /* Centrar todo el contenido */
+            }
+
+            .panel-izquierdo, 
+            .panel-derecho {
+                width: 100%; /* Las columnas ocupan todo el ancho */
+                padding: 20px; /* Reducir el padding */
+                text-align: center; /* Centrar el texto */
+            }
+
+            .panel-izquierdo h1 {
+                font-size: 28px; /* Reducir el tamaño de la fuente */
+            }
+
+            .panel-izquierdo p {
+                font-size: 14px;
+            }
+
+            .grupo-formulario input {
+                width: 100%; /* Campos ocupan todo el ancho disponible */
+                padding: 10px;
+                font-size: 16px; /* Tamaño de texto más cómodo */
+                margin-left: 0; /* Eliminar el margen izquierdo */
+                margin-bottom: 10px; /* Espacio entre los campos */
+            }
+
+            .grupo-formulario {
+                justify-content: center;
+            }
+
+            button {
+                padding: 12px; /* Ajustar el tamaño del botón */
+                font-size: 16px; /* Reducir el texto del botón */
+            }
+
+            .grupo-formulario i {
+                left: 10px;  /* Para dispositivos móviles, mantener el icono a la izquierda */
+            }
+        }
+
+        @media screen and (max-width: 480px) {
+            .panel-izquierdo h1 {
+                font-size: 24px; /* Aún más pequeño para pantallas pequeñas */
+            }
+
+            .panel-izquierdo p {
+                font-size: 12px;
+            }
+
+            .grupo-formulario input {
+                font-size: 14px; /* Reducir un poco más el texto */
+            }
+
+            button {
+                font-size: 14px;
+                padding: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="contenedor">
+        <!-- Panel Izquierdo -->
+        <div class="panel-izquierdo">
+            <img src="{{ url_for('static', filename='Dove Bird logo design template.jpg') }}" alt="Logo" width="120" style="clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%); margin-bottom: 20px;">
+            <h1>Iniciar Sesión</h1>
+            <p>¿No tienes cuenta? <a href="/registro">Regístrate aquí</a></p>
+        </div>
+        <!-- Panel Derecho -->
+        <div class="panel-derecho">
+            <form method="POST" action="/">
+                <div class="grupo-formulario">
+                    <i>👤</i>
+                    <input type="text" name="usuario" placeholder="Nombre de usuario" required>
+                </div>
+                <div class="grupo-formulario">
+                    <i>🔒</i>
+                    <input type="password" name="contraseña" placeholder="Contraseña" required>
+                </div>
+                <button type="submit">INICIAR SESIÓN</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>
